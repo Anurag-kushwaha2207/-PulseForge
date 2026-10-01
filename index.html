@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f6f7">
+    <meta name="description" content="PulseForge synthetic two-hour blood pressure episode demo dashboard">
+    <title>PulseForge | PrivaTwin</title>
+    <link rel="stylesheet" href="./src/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="PulseForge home">
+          <span class="brand-mark" aria-hidden="true">P</span>
+          <span><strong>PulseForge</strong><small>PRIVATWIN</small></span>
+        </a>
+        <p class="sidebar-label">WORKSPACE</p>
+        <div class="nav-item nav-item-active"><span aria-hidden="true">◫</span> Overview</div>
+        <div class="nav-item"><span aria-hidden="true">◉</span> Patient twins <span class="nav-count">5</span></div>
+        <div class="nav-item"><span aria-hidden="true">⌁</span> Signals</div>
+        <div class="sidebar-bottom">
+          <div class="demo-status"><span></span> Demo environment</div>
+          <div class="profile-chip"><span class="avatar avatar-clinician">CL</span><span><strong>Clinical view</strong><small>Prototype workspace</small></span></div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb">Workspace <span>/</span> Overview</div>
+          <div class="topbar-right"><span class="live-indicator"><i></i> SIMULATED FEED</span><span class="topbar-date">DEMO · NO LIVE PATIENT DATA</span></div>
+        </header>
+
+        <section class="page-heading">
+          <div>
+            <p class="eyebrow">CLINICIAN WORKSPACE <span class="synthetic-tag">SYNTHETIC DEMO</span></p>
+            <h1>Patient overview</h1>
+            <p class="page-subtitle">Explore a two-hour elevated blood pressure episode forecast alongside simulated sensor trends.</p>
+          </div>
+          <button id="reset-button" class="button button-secondary" type="button"><span aria-hidden="true">↺</span> Reset demo inputs</button>
+        </section>
+
+        <div class="safety-banner" role="note">
+          <span class="safety-icon" aria-hidden="true">i</span>
+          <p><strong>Simulation only — not for clinical use.</strong> Patient profiles and readings are synthetic. The two-hour forecast is a hand-authored demo heuristic, not a trained or clinically validated predictor, and must not guide care.</p>
+        </div>
+        <section class="cohort-strip" aria-label="Synthetic dataset size">
+          <div><strong id="patient-count">—</strong><span>Synthetic profiles</span></div>
+          <div><strong id="bp-reading-count">—</strong><span>Two-hour BP readings</span></div>
+          <div><strong id="wearable-day-count">—</strong><span>Wearable profile-days</span></div>
+          <p>Deterministic demo data · 30-day history · no real patient or device records</p>
+        </section>
+
+        <section class="overview-grid" aria-label="Patient overview">
+          <aside class="patient-panel panel">
+            <div class="panel-heading">
+              <div><p class="eyebrow">SYNTHETIC COHORT</p><h2>Patient twins</h2></div>
+              <span id="count-pill" class="count-pill">—</span>
+            </div>
+            <p class="muted small">120 profiles · 30 days · BP sampled every 2 hours</p>
+            <label class="patient-search-label" for="patient-search">Find a demo profile</label>
+            <input id="patient-search" class="patient-search" type="search" placeholder="Search by ID or age">
+            <div id="patient-list" class="patient-list" aria-label="Synthetic patient profiles"></div>
+            <div id="cohort-status" class="cohort-note" role="status" aria-live="polite"><span aria-hidden="true">✳</span> Loading generated synthetic data…</div>
+          </aside>
+
+          <div class="patient-dashboard">
+            <section class="panel patient-header">
+              <div class="patient-identity">
+                <span id="patient-avatar" class="avatar avatar-patient">PF</span>
+                <div><p class="eyebrow">SYNTHETIC PATIENT <span id="patient-id"></span></p><h2 id="patient-name"></h2><p id="patient-meta" class="muted"></p></div>
+              </div>
+              <div class="patient-header-tags"><span class="soft-tag">Digital twin preview</span><span class="feed-tag"><i></i> Wearable feed simulated</span></div>
+            </section>
+
+            <div class="metrics-grid">
+              <article class="metric-card panel">
+                <div class="metric-label">Latest home BP <span class="help-dot" title="Synthetic home blood pressure reading">?</span></div>
+                <div class="metric-value"><span id="latest-bp"></span><small> mmHg</small></div>
+                <div class="metric-foot"><span class="trend-neutral">Current demo input</span><span>Systolic / diastolic</span></div>
+              </article>
+              <article class="metric-card panel">
+                <div class="metric-label">Weekly activity <span class="help-dot" title="Simulated wearable activity summary">?</span></div>
+                <div class="metric-value"><span id="weekly-activity"></span><small> min</small></div>
+                <div class="metric-foot"><span class="trend-neutral">Simulated wearable</span><span>Recent 7 days</span></div>
+              </article>
+              <article class="metric-card panel">
+                <div class="metric-label">Average sleep <span class="help-dot" title="Simulated wearable sleep summary">?</span></div>
+                <div class="metric-value"><span id="average-sleep"></span><small> hrs</small></div>
+                <div class="metric-foot"><span class="trend-neutral">Simulated wearable</span><span>Recent 7 days</span></div>
+              </article>
+            </div>
+
+            <div class="detail-grid">
+              <section class="panel risk-panel">
+                <div class="panel-heading">
+                  <div><p class="eyebrow">ILLUSTRATIVE 2-HOUR FORECAST</p><h2>Elevated BP episode signal</h2></div>
+                  <span class="model-tag">DEMO HEURISTIC</span>
+                </div>
+                <div class="risk-content">
+                  <div class="forecast-reading">
+                    <strong id="forecast-systolic">—</strong>
+                    <span>mmHg projected</span>
+                    <small>at +2 hours</small>
+                  </div>
+                  <div class="risk-copy">
+                    <span id="risk-band" class="risk-band">—</span>
+                    <h3 id="risk-summary">Select a synthetic profile</h3>
+                    <p id="risk-description" class="muted"></p>
+                  </div>
+                </div>
+                <div class="risk-footnote"><span aria-hidden="true">ⓘ</span> Demo threshold: systolic BP ≥ 140 mmHg. This is an illustrative prototype threshold, not a clinical alert cutoff or care recommendation.</div>
+                <div class="drivers-section">
+                  <div class="subsection-heading"><h3>Readings and patient context</h3><span>All values are synthetic</span></div>
+                  <div id="signal-list" class="signal-list"></div>
+                </div>
+              </section>
+
+              <section class="panel inputs-panel">
+                <div class="panel-heading">
+                  <div><p class="eyebrow">PATIENT CONTEXT</p><h2>Demo inputs</h2></div>
+                  <span class="edit-label"><span aria-hidden="true">✎</span> Editable</span>
+                </div>
+                <p class="muted small">Adjust synthetic readings to see the +2h demo forecast respond.</p>
+                <form id="inputs-form" class="inputs-form">
+                  <label class="input-row"><span>Age <small>years</small></span><input name="age" type="number" min="18" max="90" step="1" required></label>
+                  <label class="input-row"><span>Body mass index <small>kg/m²</small></span><input name="bmi" type="number" min="15" max="55" step="0.1" required></label>
+                  <label class="input-row"><span>Historical mean SBP <small>mmHg · EHR-like</small></span><input name="historicalSystolic" type="number" min="85" max="210" step="1" required></label>
+                  <label class="input-row"><span>SBP 2 hours ago <small>mmHg · simulated</small></span><input name="systolicTwoHoursAgo" type="number" min="85" max="210" step="1" required></label>
+                  <label class="input-row"><span>Current systolic BP <small>mmHg · simulated</small></span><input name="systolic" type="number" min="85" max="210" step="1" required></label>
+                  <label class="input-row"><span>Resting heart rate <small>bpm · wearable</small></span><input name="restingHr" type="number" min="40" max="120" step="1" required></label>
+                  <label class="input-row"><span>Activity <small>min/week · wearable</small></span><input name="activityMinWeekly" type="number" min="0" max="500" step="5" required></label>
+                  <label class="input-row"><span>Average sleep <small>hrs/night · wearable</small></span><input name="sleepHours" type="number" min="3" max="12" step="0.1" required></label>
+                  <label class="check-row"><input name="familyHistory" type="checkbox"><span>Family history of high blood pressure</span></label>
+                  <label class="check-row"><input name="tobacco" type="checkbox"><span>Current tobacco use (demo input)</span></label>
+                </form>
+                <div class="input-source-note"><span class="source-dot source-ehr"></span> EHR-like context <span class="source-dot source-wearable"></span> Simulated wearable</div>
+              </section>
+            </div>
+
+            <section class="panel trends-panel">
+              <div class="panel-heading trends-heading">
+                <div><p class="eyebrow">RECENT SAMPLE · SIMULATED</p><h2>Seven-day signal timeline</h2></div>
+                <div class="chart-legend"><span><i class="legend-bp"></i> Home systolic BP</span><span><i class="legend-activity"></i> Active minutes</span></div>
+              </div>
+              <div class="chart-controls" role="group" aria-label="Trend history range">
+                <button class="range-button range-button-active" data-days="7" type="button" aria-pressed="true">7 days</button>
+                <button class="range-button" data-days="30" type="button" aria-pressed="false">30 days</button>
+              </div>
+              <div id="trend-chart" class="trend-chart" aria-label="Simulated blood pressure and activity trends"></div>
+              <div class="timeline-foot"><span><i></i> Wearable readings are simulated for this demonstration</span><span>Values are examples, not patient measurements</span></div>
+            </section>
+
+            <section class="panel readings-panel">
+              <div class="panel-heading">
+                <div><p class="eyebrow">SYNTHETIC OBSERVATION LOG</p><h2>Recent readings · 24 hours</h2></div>
+                <button id="export-button" class="button button-secondary" type="button">Export profile CSV</button>
+              </div>
+              <div class="table-scroll">
+                <table>
+                  <thead><tr><th>Time (UTC)</th><th>Systolic</th><th>Diastolic</th><th>Heart rate</th><th>Activity / day</th><th>Sleep / night</th></tr></thead>
+                  <tbody id="readings-body"></tbody>
+                </table>
+              </div>
+              <p class="table-note">The complete generated cohort and regeneration script are in <code>data/demo-cohort.json</code> and <code>scripts/generate_synthetic_cohort.py</code>.</p>
+            </section>
+
+            <footer class="dashboard-footer">
+              <span>PulseForge · PrivaTwin prototype</span>
+              <span>For demonstration only <b>·</b> No clinical validation</span>
+            </footer>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
